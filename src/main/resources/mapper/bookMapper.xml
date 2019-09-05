@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.web.test.Dao.BookMapper">
+	
+		<insert id="bookInsert" parameterType="Book">
+			insert into book values(bookSeq.nextval,#{userId},${marketSeq},#{bookTime},#{userName},#{people},#{bookDate})
+		</insert>
+		<select id="bookSelect" resultType="Book">
+			select * from book where marketSeq = #{Seq}
+		</select>
+		<select id="bookCount" parameterType="Book" resultType="String">
+			select sum(people) from book where marketSeq = #{marketSeq} and bookDate = #{bookDate}
+		</select>
+		<select id="bookList" resultType="Book">
+			select b.userId,bookDate,marketName,bookSeq,people,userName,bookTime
+			from book b , market m
+			 where b.UserId = #{userId} and
+			 b.marketSeq = m.marketSeq
+		</select>
+</mapper>
+

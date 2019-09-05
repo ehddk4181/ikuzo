@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<typeAliases>
+		<typeAlias type="com.web.test.Vo.User" alias="User" />
+		<typeAlias type="com.web.test.Vo.Market" alias="Market" />
+		<typeAlias type="com.web.test.Vo.Review" alias="Review" />
+		<typeAlias type="com.web.test.Vo.SearchKey" alias="Search" />
+		<typeAlias type="com.web.test.Vo.Book" alias="Book" />
+		<typeAlias type="com.web.test.Vo.Menu" alias="Menu" />
+		<typeAlias type="com.web.test.Vo.SearchBook" alias="SearchBook" />
+		<typeAlias type="com.web.test.Vo.MarketImg" alias="MarketImg" />
+
+		<!--  짤게 쓰고자 하는 내용임 -->
+		
+	</typeAliases>
+	<mappers>
+		<mapper resource="mapper/userMapper.xml" />
+		<mapper resource="mapper/marketMapper.xml" />
+		<mapper resource="mapper/reviewMapper.xml" />
+		<mapper resource="mapper/bookMapper.xml" />
+		<mapper resource="mapper/menuMapper.xml" />
+		
+	
+	</mappers>
+</configuration>

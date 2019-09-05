@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.web.test.Dao.menuMapper" >
+		<insert id="menuInsertmenu" parameterType="Menu">
+		insert into Menu values(menuSeq.nextval,#{marketSeq},#{menuKind},#{menuName},#{menuprice})
+		</insert>
+		<select id="menuSelect" resultType="Menu" parameterType="Menu">
+			select *
+			from Menu
+			Where MarketSeq = #{marketSeq}
+		</select>
+		
+</mapper>

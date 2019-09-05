@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.web.test.Dao.MarketMapper">
+	
+		<insert id="marketInsert" parameterType="Market">
+			<selectKey keyProperty="marketSeq" resultType="int" order="BEFORE">
+				select MarketSeq.nextval from dual
+			</selectKey>
+		insert 
+			into
+		market
+		values(#{marketSeq},#{locationNumber},#{marketName},0,#{marketTitle},#{marketContent},0,#{marketKind},'n',sysdate,#{marketBookLimit})
+		</insert>
+		<insert id="marketTimeTableInsert" parameterType="Market">
+		insert 
+			into
+		marketTimeTable
+		values(#{marketSeq},#{open},#{close},#{rest},#{breakTime},#{breakTimeEnd})
+		
+		</insert>
+		<insert id="marketLocationInsert" parameterType="Market">
+		insert 
+			into
+		Location
+		values(#{marketSeq},#{lat},#{lng})
+		
+		</insert>
+		
+		<select id="marketSelectAll" resultType="Market">
+			select *
+			from market
+		</select>
+		<select id="marketSelect4" resultType="Market">
+			 SELECT marketSeq,marketName
+			FROM
+			(SELECT rownum,marketSeq,marketName
+			FROM
+			(select DISTINCT m.marketSeq,marketName,indate
+			from market m, marketImg i
+			where m.marketSeq = i.marketSeq
+			order by indate DESC))
+			where <![CDATA[rownum > 0 and rownum < 5]]>
+		</select>
+		<select id="marketSelect4Point" resultType="Market">
+			SELECT marketSeq,marketName
+			FROM
+			(SELECT rownum,marketSeq,marketName
+			FROM
+			(select DISTINCT m.marketSeq,marketName,MARKETPOINT
+			from market m, marketImg i
+			where m.marketSeq = i.marketSeq
+			order by marketPoint DESC))
+			where <![CDATA[rownum > 0 and rownum < 5]]>
+			
+			
+		</select>
+		
+		<select id="marketSelect" resultType="Market">
+			select marketSeq,locationNumber,marketName,marketHit,marketTitle,marketContent,marketPoint,marketKind,indate,marketBookLimit,fileName,savedName,lat,lng
+			from (select rownum,m.marketSeq,locationNumber,marketName,marketHit,marketTitle,marketContent,marketPoint,marketKind,indate,m.marketBookLimit,fileName,savedName,lat,lng
+			from market m , marketImg i , Location l
+			where
+			m.marketSeq = #{seq} and m.MARKETSEQ = i.MARKETSEQ(+) and m.marketSeq = #{seq} and m.MARKETSEQ = l.MARKETSEQ)
+				where rownum = 1
+		</select>
+		<update id="marketPointSet">
+		Update Market
+		Set MarketPoint = (
+		Select AVG(ReviewPoint) From Review where MarketSeq = #{seq})
+		Where MarketSeq = #{seq}
+		</update>
+		<select id="getTotal" resultType="int">
+			select count(*)
+			from market
+		</select>
+		
+		<select id="marketSearch" parameterType="Search" resultType="Market">
+			select *
+			from market
+			where
+			<choose>
+			<when test="searchLocation!='all'">
+				LOCATIONNUMBER = #{searchLocation} and
+			</when>
+			 <when test="searchKind!='all'"> 
+			MARKETKIND = #{searchKind} and
+			</when>
+			</choose>
+			MarketName like '%'||#{searchTitle}||'%'
+		</select>
+		<insert id="marketImgInsert" parameterType="Market">
+			insert into marketImg values(#{marketSeq},#{fileName},#{savedName},imgSeq.nextval)
+		</insert>
+		<select id="marketTimeTableSelect" resultType="Market">
+			select *
+			from marketTimeTable
+			where MarketSeq = #{seq}
+		</select>
+		<select id="marketImgSelect" parameterType="int" resultType="MarketImg">
+			select * from marketImg where marketSeq = #{marketSeq}
+		</select>
+</mapper>
+

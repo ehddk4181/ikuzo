@@ -1,0 +1,75 @@
+ Create table MarketTimeTable
+ (MarketSeq varchar2(10) references Market(marketSeq),
+ Open varchar2(50) not null,
+ close varchar2(50) not null,
+ rest varchar2(20),
+ BreakTime varchar2(50),
+ BreakTimeEnd varchar2(50)
+ )
+
+Create table Book(
+BookSeq varchar2(10) primary key,
+UserId varchar2(30) references Userss(userID),
+marketSeq varchar2(10) references Market(marketSeq),
+BookTime varchar2(30) ,
+UserName varchar2(20) not null,
+people varchar2(10) not null,
+bookDate varchar2(30))
+
+Create table location(
+marketSeq varchar2(10) references market(marketSeq),
+lat varchar2(100) not null,
+lng varchar2(100) not null)
+
+create table Reviewes(
+MarketSeq varchar2(10) not null,
+UserId varchar2(30) references userss(userid),
+ReviewSeq varchar2(10) primary key,
+ReviewTitle varchar2(50),
+ReviewContent varchar2(2000),
+ReviewPoint NUMBER,
+indate varchar2(30) DEFAULT SYSDATE);
+
+Create table market(
+MarketSeq varchar2(10) primary key,
+locationNumber varchar2(10) not null,
+Marketname varchar2(40) not null,
+Markethit varchar2(10) default 0,
+MarketTitle varchar2(40) not null ,
+Marketcontent varchar2(2000) ,
+MarketPoint number,
+MarketKind varchar2(20) not null,
+Deleted varchar2(5) default 'n',
+indate date default sysdate,
+marketBookLimit NUMBER NOT NULL)
+
+CREATE TABLE userss(
+userid varchar2(50) PRIMARY KEY,
+userpw varchar2(50) NOT NULL,
+username varchar2(50) NOT NULL,
+userphone varchar2(50) NOT NULL,
+admin varchar2(5) DEFAULT 'n',
+deleted varchar2(5) DEFAULT 'n'
+)
+
+CREATE TABLE marketImg(
+MarketSeq varchar2(50) REFERENCES market(marketseq),
+filename varchar2(1000),
+savedName varchar2(1000),
+Imgseq varchar2(10) primary key
+)
+CREATE SEQUENCE marketSeq
+CREATE SEQUENCE ReviewSeq
+CREATE SEQUENCE bookSeq
+CREATE SEQUENCE imgseq
+
+INSERT INTO userss values(123,123,123,123,'y','n')
+COMMIT
+
+CREATE TABLE Menu(
+	menuSeq varchar2(10) PRIMARY KEY,
+	marketSeq varchar2(10) REFERENCES MARKET(marketseq),
+	MenuKind varchar2(50) NOT NULL,
+	menuName varchar2(50) NOT NULL,
+	Menuprice NUMBER NOT null
+)
